@@ -1,7 +1,12 @@
 {
   "development": {
-    "database": "shm-chat",
-    "host": "mongo-dev",
+    "database": "exam-squadhelp-dev",
+    "host": "localhost",
+    "port": 27017
+  },
+  "test": {
+    "database": "exam-squadhelp-test",
+    "host": "localhost",
     "port": 27017
   },
   "production": {

@@ -1,9 +1,10 @@
 const env = process.env.NODE_ENV || 'development';
 const serverIP = 'localhost';
-const serverPort = 3000;
+const serverPort = 5000;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODERATOR: 'moderator',
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',

@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "postgres",
-    "password": "password",
-    "database": "todo-dev",
-    "host": "db-dev",
+    "password": "1456",
+    "database": "squadhelp-exam-dev",
+    "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "Op",
     "seederStorage": "sequelize"
@@ -11,7 +11,7 @@
   "test": {
     "username": "postgres",
     "password": "admin",
-    "database": "todo-test",
+    "database": "squadhelp-exam-test",
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "Op",
@@ -20,7 +20,7 @@
   "production": {
     "username": "postgres",
     "password": "admin",
-    "database": "todo-prod",
+    "database": "squadhelp-exam-prod",
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "Op",
