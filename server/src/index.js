@@ -1,5 +1,4 @@
 const http = require('http');
-require('./dbMongo/mongoose');
 const app = require('./app');
 const controller = require('./socketInit');
 
@@ -9,4 +8,5 @@ const server = http.createServer(app);
 server.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );
+
 controller.createConnection(server);
