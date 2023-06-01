@@ -4,6 +4,7 @@ import Footer from '../../components/Footer/Footer';
 import Spinner from '../../components/Spinner/Spinner';
 import HowItWorksHeader from './HowItWorksHeader/HowItWorksHeader';
 import HowItWorksContests from './HowItWorksContests/HowItWorksContests';
+import HowItWorksFAQ from './HowItWorksFAQ/HowItWorksFAQ';
 
 function HowItWorksPage (props) {
   const { isFetching } = props;
@@ -16,6 +17,7 @@ function HowItWorksPage (props) {
         <>
           <HowItWorksHeader />
           <HowItWorksContests />
+          <HowItWorksFAQ />
           <Footer />
         </>
       )}
