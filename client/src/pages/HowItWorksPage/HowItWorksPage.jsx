@@ -8,6 +8,7 @@ import HowItWorksFAQ from './HowItWorksFAQ/HowItWorksFAQ';
 
 function HowItWorksPage (props) {
   const { isFetching } = props;
+
   return (
     <>
       <Header />
