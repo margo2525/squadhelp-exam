@@ -1,0 +1,49 @@
+%flex-center
+	display: flex
+	justify-content: center
+	align-items: center
+
+%btnHover
+	box-shadow: 2px 10px 2px rgba(6, 90, 235, 0.1)
+	transform: translateY(-0.2em)
+
+.startContainer
+	@extend %flex-center
+	height: 220px
+	background: #2B208C
+	background: linear-gradient(167deg, #2B208C 0%, #199DFD 100%)
+	
+
+.startBanner
+	@extend %flex-center
+	flex-direction: column
+	justify-content: space-around
+	padding: 30px
+
+.startBannerHeader
+	font-size: 32px
+	color: #00DFFC
+	font-weight: 500
+
+.startBannerText
+	color: #FFFFFF
+	font-size: 20px
+	padding: 33px
+	margin-top:-33px 
+
+.startBannerBtn
+	height: 50px
+	max-width: 155px
+	width: 150px
+	
+	border: none
+	border-radius: 7px
+	transition: all ease-in-out 0.25s
+	
+
+.startBannerBtn:hover
+	@extend %btnHover
+
+.startBannerBtnText
+	text-decoration: none
+	color: #000

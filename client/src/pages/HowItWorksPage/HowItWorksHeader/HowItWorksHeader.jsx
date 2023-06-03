@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './HowItWorksHeader.module.sass';
-
 import CONSTANTS from '../../../constants';
 
 function HowItWorksHeader () {
