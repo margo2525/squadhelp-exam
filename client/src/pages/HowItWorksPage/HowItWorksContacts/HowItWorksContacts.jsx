@@ -36,7 +36,7 @@ function HowItWorksContacts () {
           questions answered.
         </p>
         <button className={styles.btnQuetions}>
-          <span>Schedule Consultation</span>
+          <span className={styles.consultation}>Schedule Consultation</span>
         </button>
 
         <p className={styles.phoneNumber}> # (877) 355-3585</p>

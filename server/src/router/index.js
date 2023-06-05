@@ -7,7 +7,19 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
+const contestsRouter = require('./contestRouter');
 const router = express.Router();
+
+// post('', body)
+// get('.../params&query')
+// patch/put('.../params', body)
+// delete('.../params')
+
+// PUBLIC ENDPOINT
+// GET offers?limit=10&offset=0
+router.get('/offers', contestController.getAllOffers);
+
+// auth
 
 router.post(
   '/registration',
@@ -18,48 +30,67 @@ router.post(
 
 router.post('/login', validators.validateLogin, userController.login);
 
+// users
+
+router.post('/getUser', checkToken.checkAuth);
+
+router.post(
+  '/updateUser',
+  checkToken.checkToken,
+  upload.uploadAvatar,
+  userController.updateUser
+);
+
+//router.get(
+//  '/users/id/transactions',
+// checkToken.checkToken,
+// userController.getTransactions
+//);
+
+// contests
+
+router.use('/contests', contestsRouter);
+
+// POST /contests
+// router.post(
+//   '/pay',
+//   checkToken.checkToken,
+//   basicMiddlewares.onlyForCustomer,
+//   upload.uploadContestFiles,
+//   basicMiddlewares.parseBody,
+//   validators.validateContestCreation,
+//   userController.payment
+// );
+
+// GET /contests/types&characteristic1=...&characteristic2=...
 router.post(
   '/dataForContest',
   checkToken.checkToken,
   contestController.dataForContest
 );
 
-router.post(
-  '/pay',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCustomer,
-  upload.uploadContestFiles,
-  basicMiddlewares.parseBody,
-  validators.validateContestCreation,
-  userController.payment
-);
+// GET //user/id/contests
+// GET //contests/byCustomer
+// router.post(
+//   '/getCustomersContests',
+//   checkToken.checkToken,
+//   contestController.getCustomersContests
+// );
 
-router.post(
-  '/getCustomersContests',
-  checkToken.checkToken,
-  contestController.getCustomersContests
-);
+// GET /contests/:contestId
+// router.get(
+//   '/getContestById',
+//   checkToken.checkToken,
+//   basicMiddlewares.canGetContest,
+//   contestController.getContestById
+// );
 
-router.get(
-  '/getContestById',
-  checkToken.checkToken,
-  basicMiddlewares.canGetContest,
-  contestController.getContestById
-);
-
+// GET /contests...
 router.post(
   '/getAllContests',
   checkToken.checkToken,
   basicMiddlewares.onlyForCreative,
   contestController.getContests
-);
-
-router.post('/getUser', checkToken.checkAuth);
-
-router.get(
-  '/downloadFile/:fileName',
-  checkToken.checkToken,
-  contestController.downloadFile
 );
 
 router.post(
@@ -68,6 +99,14 @@ router.post(
   upload.updateContestFile,
   contestController.updateContest
 );
+
+router.get(
+  '/downloadFile/:fileName',
+  checkToken.checkToken,
+  contestController.downloadFile
+);
+
+// offers
 
 router.post(
   '/setNewOffer',
@@ -91,12 +130,7 @@ router.post(
   userController.changeMark
 );
 
-router.post(
-  '/updateUser',
-  checkToken.checkToken,
-  upload.uploadAvatar,
-  userController.updateUser
-);
+// payment
 
 router.post(
   '/cashout',
@@ -104,6 +138,8 @@ router.post(
   basicMiddlewares.onlyForCreative,
   userController.cashout
 );
+
+// chat
 
 router.post('/newMessage', checkToken.checkToken, chatController.addMessage);
 
