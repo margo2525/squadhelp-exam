@@ -1,0 +1,48 @@
+%btnHover
+	box-shadow: 2px 10px 2px rgba(6, 90, 235, 0.1)
+	transform: translateY(-0.2em)
+
+.eventForm
+	display: flex
+	flex-direction: column
+	width: 30%
+	min-width: max-content
+	gap: 16px
+	padding: 24px
+	box-shadow: 0 0 12px 1px rgb(128, 165, 228)
+	border-radius: 5px
+	
+	.eventBtn
+		width: 100%
+		min-width: fit-content
+		padding: 12px
+		border: none
+		border-radius: 5px
+		background-color: blue
+		color: white
+		margin-top: 20px
+
+	.eventBtn:hover
+		@extend %btnHover
+
+		.eventInput
+			position: relative
+			margin: 8px 0
+
+	input
+		height: 40px
+		border: none
+		border-bottom: 1px solid #9098c6
+		width: 100%
+		padding: 3px
+
+		input:focus
+			border-bottom: 2px solid blue
+
+		.errorMessage
+			position: absolute
+			font-size: 12px
+			top: 100%
+			right: 0
+			color: rgb(255, 68, 68)
+			padding: 10px

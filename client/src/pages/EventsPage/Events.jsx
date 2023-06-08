@@ -6,8 +6,8 @@ const Events = () => {
   return (
     <>
       <Header />
+      <h1 className={styles.title}>Your Events</h1>
       <div className={styles.eventsContainer}>
-        <h1 className={styles.title}>Your Events</h1>
         <EventForm />
       </div>
 
