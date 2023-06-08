@@ -5,6 +5,7 @@ import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
 import { clearUserStore } from '../../store/slices/userSlice';
 import { getUser } from '../../store/slices/userSlice';
+import Logo from '../../components/Logo';
 
 class Header extends React.Component {
   componentDidMount () {
@@ -53,10 +54,17 @@ class Header extends React.Component {
                 </Link>
               </li>
               <li>
-                <Link
-                  to='http:/www.google.com'
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to='/events' style={{ textDecoration: 'none' }}>
+                  <span>Events</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/transactions' style={{ textDecoration: 'none' }}>
+                  <span>Transactions</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/messages' style={{ textDecoration: 'none' }}>
                   <span>Messages</span>
                 </Link>
               </li>
@@ -109,18 +117,14 @@ class Header extends React.Component {
         <div className={styles.loginSignnUpHeaders}>
           <div className={styles.numberContainer}>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone' />
-            <span>(877)&nbsp;355-3585</span>
+            <span>{CONSTANTS.COMPANY_PHONE_NUMBER}</span>
           </div>
           <div className={styles.userButtonsContainer}>
             {this.renderLoginButtons()}
           </div>
         </div>
         <div className={styles.navContainer}>
-          <img
-            src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-            className={styles.logo}
-            alt='blue_logo'
-          />
+          <Logo alt='logo' />
           <div className={styles.leftNav}>
             <div className={styles.nav}>
               <ul>

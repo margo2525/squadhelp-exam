@@ -51,3 +51,6 @@ export const getActiveContests = ({
 
 export const getContestById = ({ contestId }) =>
   http.get(`contests/${contestId}`);
+
+export const getTransactions = () => http.get('users/id/transactions');
+export const getEvents = () => http.get('users/id/events');

@@ -1,12 +1,18 @@
 import * as yup from 'yup';
 import valid from 'card-validator';
+import {
+  format,
+  addYears,
+  isBefore,
+  hoursToMilliseconds,
+  minutesToMilliseconds,
+} from 'date-fns';
 
-export default {
+const regexp = /\d{2}:\d{2}/;
+
+const schemas = {
   LoginSchem: yup.object().shape({
-    email: yup
-      .string()
-      .email('check email')
-      .required('required'),
+    email: yup.string().email('check email').required('required'),
     password: yup
       .string()
       .test(
@@ -17,10 +23,7 @@ export default {
       .required('required'),
   }),
   RegistrationSchem: yup.object().shape({
-    email: yup
-      .string()
-      .email('check email')
-      .required('Email is required'),
+    email: yup.string().email('check email').required('Email is required'),
     password: yup
       .string()
       .test(
@@ -149,10 +152,7 @@ export default {
       .required('required'),
   }),
   CashoutSchema: yup.object().shape({
-    sum: yup
-      .number()
-      .min(5, 'min sum is 5$')
-      .required('required'),
+    sum: yup.number().min(5, 'min sum is 5$').required('required'),
     number: yup
       .string()
       .test(
@@ -161,10 +161,7 @@ export default {
         value => valid.number(value).isValid
       )
       .required('required'),
-    name: yup
-      .string()
-      .min(1)
-      .required('required'),
+    name: yup.string().min(1).required('required'),
     cvc: yup
       .string()
       .test('test-cvc', 'cvc is invalid', value => valid.cvv(value).isValid)
@@ -225,4 +222,58 @@ export default {
       )
       .required('required'),
   }),
+  EventsSchema: yup.object().shape({
+    eventName: yup
+      .string()
+      .matches(/\S+/, 'Event name cannot include space characters only')
+      .max(50, 'Event name must be less than 50 characters')
+      .required('Enter event name'),
+    eventDate: yup
+      .date()
+      .min(
+        format(Date.now(), 'yyyy-MM-dd'),
+        'Event date must be later than or equal to current date'
+      )
+      .max(
+        format(addYears(Date.now(), 1), 'yyyy-MM-dd'),
+        'Event must occur in less than one year'
+      )
+      .required('Indicate event date'),
+    eventTime: yup
+      .string()
+      .required('Specify event time')
+      .test(
+        'is-time-valid',
+        'Event time must be later than current time',
+        (eventTime, { parent: { eventDate } }) => {
+          if (regexp.test(eventTime) && eventDate) {
+            return isBefore(
+              Date.now(),
+              Date.parse(`${format(eventDate, 'yyyy-MM-dd')}T${eventTime}`)
+            );
+          }
+        }
+      ),
+    remindTime: yup
+      .string()
+      .required('Specify remind time before the event')
+      .test(
+        'is-remind-time-valid',
+        'Specify remind time in proper interval',
+        (remindTime, { parent: { eventDate, eventTime } }) => {
+          if (regexp.test(remindTime) && regexp.test(eventTime) && eventDate) {
+            const eventTimeDate = new Date(
+              Date.parse(`${format(eventDate, 'yyyy-MM-dd')}T${eventTime}`)
+            );
+            const timeInMilliseconds =
+              hoursToMilliseconds(remindTime.substring(0, 2)) +
+              minutesToMilliseconds(remindTime.substring(3));
+
+            return eventTimeDate - Date.now() >= timeInMilliseconds;
+          }
+        }
+      ),
+  }),
 };
+
+export default schemas;

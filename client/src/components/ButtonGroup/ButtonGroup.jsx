@@ -5,16 +5,19 @@ import styles from './ButtonGroup.module.sass';
 function ButtonGroup () {
   const data = [
     {
+      id: 1,
       header: 'Yes',
       main: 'The Domain should exactly match the name',
       isHighlighted: false,
     },
     {
+      id: 2,
       header: 'Yes',
       main: 'But minor variants are allowed (Recommended)',
       isHighlighted: false,
     },
     {
+      id: 3,
       header: 'No',
       main: 'I am only looking for a name, not a Domain',
       isHighlighted: false,

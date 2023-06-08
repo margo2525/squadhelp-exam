@@ -43,8 +43,8 @@ router.post(
 
 //router.get(
 //  '/users/id/transactions',
-// checkToken.checkToken,
-// userController.getTransactions
+//  checkToken.checkToken,
+//  userController.getTransactions
 //);
 
 // contests
