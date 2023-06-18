@@ -1,6 +1,7 @@
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import EventForm from '../../components/MyEvents/EventsForm/EventsForm';
+
 import styles from './Events.module.sass';
 const Events = () => {
   return (

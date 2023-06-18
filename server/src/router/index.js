@@ -41,26 +41,26 @@ router.post(
   userController.updateUser
 );
 
-//router.get(
-//  '/users/id/transactions',
-//  checkToken.checkToken,
-//  userController.getTransactions
-//);
+router.get(
+  '/users/id/transactions',
+  checkToken.checkToken,
+  userController.getTransactions
+);
 
 // contests
 
 router.use('/contests', contestsRouter);
 
-// POST /contests
-// router.post(
-//   '/pay',
-//   checkToken.checkToken,
-//   basicMiddlewares.onlyForCustomer,
-//   upload.uploadContestFiles,
-//   basicMiddlewares.parseBody,
-//   validators.validateContestCreation,
-//   userController.payment
-// );
+//POST / contests;
+//router.post(
+// '/pay',
+// checkToken.checkToken,
+// basicMiddlewares.onlyForCustomer,
+// upload.uploadContestFiles,
+// basicMiddlewares.parseBody,
+//  validators.validateContestCreation,
+//  userController.payment
+//);
 
 // GET /contests/types&characteristic1=...&characteristic2=...
 router.post(
