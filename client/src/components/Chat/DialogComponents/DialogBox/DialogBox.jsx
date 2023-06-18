@@ -15,14 +15,9 @@ const DialogBox = props => {
     chatMode,
     interlocutor,
   } = props;
-  const {
-    favoriteList,
-    participants,
-    blackList,
-    _id,
-    text,
-    createAt,
-  } = chatPreview;
+  const { favoriteList, participants, blackList, _id, text, createAt } =
+    chatPreview;
+
   const isFavorite = favoriteList[participants.indexOf(userId)];
   const isBlocked = blackList[participants.indexOf(userId)];
   return (

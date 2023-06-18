@@ -128,6 +128,15 @@ class RegistrationForm extends React.Component {
                 component={RoleInput}
                 id={CONSTANTS.CREATOR}
               />
+              <Field
+                name='role'
+                type='radio'
+                value={CONSTANTS.MODERATOR}
+                strRole='Join As a Moderator'
+                infoRole='I can view all offers, confirm and reject them'
+                component={RoleInput}
+                id={CONSTANTS.MODERATOR}
+              />
             </div>
             <div className={styles.termsOfService}>
               <AgreeTermOfServiceInput

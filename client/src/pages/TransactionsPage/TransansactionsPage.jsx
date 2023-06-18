@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import format from 'date-fns/format';
 import Header from '../../components/Header/Header';
 import { connect } from 'react-redux';
-import CONSTANTS from '../../constants';
 import { getTransactions } from '../../store/slices/transactionsSlice';
-import styles from './Transactions.module.sass';
-function TransansactionsPage ({ transactions, isFetching, error, get }) {
+import styles from './TransactionsPage.module.sass';
+
+function TransansactionsPage ({
+  lastName,
+  firstName,
+  transactions,
+  isFetching,
+  error,
+  get,
+}) {
   useEffect(() => {
     get();
   }, []);
@@ -13,8 +21,11 @@ function TransansactionsPage ({ transactions, isFetching, error, get }) {
     <div>
       <Header />
       <main className={styles.transactionsContainer}>
+        <h3 className={styles.header}>
+          Hi, dear {firstName} {lastName}!
+        </h3>
         <table>
-          <caption>Finance Operations</caption>
+          <caption className={styles.caption}>Finance Operations</caption>
           <thead>
             <tr>
               <th key={1}>Amount</th>
@@ -27,7 +38,7 @@ function TransansactionsPage ({ transactions, isFetching, error, get }) {
               <tr key={t.id}>
                 <td>{t.amount}</td>
                 <td>{t.operationType}</td>
-                <td>{t.createdAt}</td>
+                <td>{format(new Date(t.createdAt), ' dd.MM.yyyy HH:mm')}</td>
               </tr>
             ))}
           </tbody>
