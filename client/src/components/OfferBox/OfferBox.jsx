@@ -105,7 +105,7 @@ const OfferBox = props => {
       conversationData: findConversationInfo(),
     });
   };
-
+  const { User } = props.data;
   const { data, role, id, contestType } = props;
   const { avatar, firstName, lastName, email, rating } = props.data.User;
   return (
@@ -118,7 +118,7 @@ const OfferBox = props => {
               src={
                 avatar === 'anon.png'
                   ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}${avatar}`
+                  : `${CONSTANTS.publicURL}${User.avatar}`
               }
               alt='user'
             />
