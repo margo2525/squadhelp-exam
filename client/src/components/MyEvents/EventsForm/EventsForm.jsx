@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
+import MyButton from '../../UI/Button/MyButton';
 import styles from './EventsForm.module.sass';
 
 function EventsForm ({ onSubmit }) {
@@ -40,9 +41,7 @@ function EventsForm ({ onSubmit }) {
           <Field name='notificationText' type='text' />
         </label>
         <br />
-        <button className={styles.eventBtn} type='submit'>
-          Add Event
-        </button>
+        <MyButton>Add Event</MyButton>
       </Form>
     </Formik>
   );

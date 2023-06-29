@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import styles from './EventsList.module.sass';
+import ProgressItem from '../ProgressItem/ProgressItem';
 
 function EventList ({
   eventName,
@@ -26,16 +27,39 @@ function EventList ({
     }
   }, []);
 
+  const initialProgressData = new Date();
+  const [progressState, setProgressState] = useState(initialProgressData);
+  const userDate = new Date(eventDate);
+  const createdEventDate = new Date();
+  const period = useMemo(() => userDate - createdEventDate, []);
+
+  useEffect(() => {
+    let progressId = setTimeout(function runProgress () {
+      setProgressState(progressState + 1000);
+
+      progressId = setTimeout(runProgress, 1000);
+    }, 1000);
+
+    return () => {
+      clearTimeout(progressId);
+    };
+  }, [progressState]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       const eventDateTime = new Date(`${eventDate}T${eventTime}`);
       const timeDiff = eventDateTime - now;
+      const seconds = Math.floor((timeDiff / 1000) % 60);
       const minutes = Math.floor(timeDiff / 1000 / 60);
       const hours = Math.floor(minutes / 60);
       const days = Math.floor(hours / 24);
       if (timeDiff > 0) {
-        setTimeLeft(`${days}:${hours % 24}:${minutes % 60} left`);
+        setTimeLeft(
+          `${days} days ${hours % 24} hours ${
+            minutes % 60
+          } minutes ${seconds} seconds left`
+        );
         if (
           notification &&
           timeDiff < notification * 60 * 1000 &&
@@ -52,11 +76,11 @@ function EventList ({
     }, 1000);
     return () => clearInterval(interval);
   }, [eventDate, eventTime, eventName, notification, notificationText]);
-
   return (
     <div>
       <li className={styles.eventList}>
-        {eventName} on {eventDate} at {eventTime} ({timeLeft})
+        <ProgressItem progressState={progressState} period={period} />
+        {eventName} {eventDate} {eventTime} {timeLeft}
         <div className={styles.eventBtn}>
           <button onClick={onEdit}>
             <FaPencilAlt />
