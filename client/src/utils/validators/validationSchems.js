@@ -254,25 +254,6 @@ const schemas = {
           }
         }
       ),
-    remindTime: yup
-      .string()
-      .required('Specify remind time before the event')
-      .test(
-        'is-remind-time-valid',
-        'Specify remind time in proper interval',
-        (remindTime, { parent: { eventDate, eventTime } }) => {
-          if (regexp.test(remindTime) && regexp.test(eventTime) && eventDate) {
-            const eventTimeDate = new Date(
-              Date.parse(`${format(eventDate, 'yyyy-MM-dd')}T${eventTime}`)
-            );
-            const timeInMilliseconds =
-              hoursToMilliseconds(remindTime.substring(0, 2)) +
-              minutesToMilliseconds(remindTime.substring(3));
-
-            return eventTimeDate - Date.now() >= timeInMilliseconds;
-          }
-        }
-      ),
   }),
 };
 

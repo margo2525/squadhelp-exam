@@ -1,124 +1,62 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styles from './Timer.module.css';
+import React, { useState, useEffect } from 'react';
+import './Timer.css';
+const Timer = ({ targetDateTime }) => {
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDateTime));
 
-const FULL_DASH_ARRAY = 1;
-const WARNING_THRESHOLD = 0.6;
-const ALERT_THRESHOLD = 0.3;
-
-const COLOR_CODES = {
-  info: {
-    color: 'green',
-  },
-  warning: {
-    color: 'orange',
-    threshold: WARNING_THRESHOLD,
-  },
-  alert: {
-    color: 'red',
-    threshold: ALERT_THRESHOLD,
-  },
-};
-
-const TIME_LIMIT = 0;
-
-function Timer () {
-  const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
-  const [timePassed, setTimePassed] = useState(0);
-  const [timerInterval, setTimerInterval] = useState(null);
-  const [remainingPathColor, setRemainingPathColor] = useState(
-    COLOR_CODES.info.color
-  );
-
-  const timerPathRef = useRef(null);
+  //console.log('Timer days:', timeLeft.days); // log the days state variable
+  //console.log('Timer hours:', timeLeft.hours); // log the hours state variable
+  //console.log('Timer minutes:', timeLeft.minutes); // log the minutes state variable
+  //console.log('Timer seconds:', timeLeft.seconds); // log the seconds state variable
 
   useEffect(() => {
-    startTimer();
-  }, []);
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft(targetDateTime));
+    }, 1000);
 
-  useEffect(() => {
-    if (timeLeft === 0) {
-      onTimesUp();
-    }
-  }, [timeLeft]);
-
-  function onTimesUp () {
-    clearInterval(timerInterval);
-    alert('Время вышло!');
-  }
-
-  function startTimer () {
-    setTimerInterval(
-      setInterval(() => {
-        setTimePassed(timePassed => timePassed + 1);
-        setTimeLeft(TIME_LIMIT - timePassed);
-        setCircleDasharray();
-        setRemainingPathColor(getRemainingPathColor(timeLeft));
-      }, 1000)
-    );
-  }
-
-  function formatTime (time) {
-    const minutes = Math.floor(time / 60);
-    let seconds = time % 60;
-
-    if (seconds < 10) {
-      seconds = `0${seconds}`;
-    }
-
-    return `${minutes}:${seconds}`;
-  }
-
-  function setCircleDasharray () {
-    const circleDasharray = `${(
-      calculateTimeFraction() * FULL_DASH_ARRAY
-    ).toFixed(0)} 1`;
-    timerPathRef.current.setAttribute('stroke-dasharray', circleDasharray);
-  }
-
-  function calculateTimeFraction () {
-    const rawTimeFraction = timeLeft / TIME_LIMIT;
-    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
-  }
-
-  function getRemainingPathColor (timeLeft) {
-    const { alert, warning, info } = COLOR_CODES;
-    if (timeLeft <= alert.threshold) {
-      return alert.color;
-    } else if (timeLeft <= warning.threshold) {
-      return warning.color;
-    } else {
-      return info.color;
-    }
-  }
+    return () => clearTimeout(timer);
+  });
 
   return (
-    <div className={styles.timer}>
-      <svg
-        className={styles.timerSvg}
-        viewBox='0 0 100 100'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <g className={styles.timerCircle}>
-          <rect x='30' y='50' width='12' height='5' />
-          <path
-            ref={timerPathRef}
-            id='timerPathRemaining'
-            strokeDasharray='283'
-            className={styles.timerPathRemaining}
-            style={{ stroke: remainingPathColor }}
-            d="
-              M 5,50
-              A 45,45
-              0
-              ${calculateTimeFraction() < FULL_DASH_ARRAY ? '1' : '0'} 
-              ${calculateTimeFraction() * FULL_DASH_ARRAY},50
-            "
-          ></path>
-        </g>
-      </svg>
-      <div className={styles.timerValue}>{formatTime(timeLeft)}</div>
+    <div className='show-counter'>
+      <div className='countdown-link'>
+        <DateTimeDisplay value={timeLeft.days} type={'Days'} />
+        <p>:</p>
+        <DateTimeDisplay value={timeLeft.hours} type={'Hours'} />
+        <p>:</p>
+        <DateTimeDisplay value={timeLeft.minutes} type={'Mins'} />
+        <p>:</p>
+        <DateTimeDisplay value={timeLeft.seconds} type={'Sec'} />
+      </div>
     </div>
   );
+};
+
+const DateTimeDisplay = ({ value, type, isDanger }) => {
+  return (
+    <div className={isDanger ? 'countdown danger' : 'countdown'}>
+      <p>{value}</p>
+      <span>{type}</span>
+    </div>
+  );
+};
+
+function calculateTimeLeft (targetDateTime) {
+  //console.log('calculateTimeLeft targetDateTime:', targetDateTime); // log the targetDateTime argument
+  const difference = +new Date(targetDateTime) - +new Date();
+
+  console.log('difference:', difference);
+  let timeLeft = {};
+
+  if (difference > 0) {
+    timeLeft = {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
+  }
+  //console.log('calculateTimeLeft timeLeft:', timeLeft); // log the timeLeft object
+  return timeLeft;
 }
 
 export default Timer;

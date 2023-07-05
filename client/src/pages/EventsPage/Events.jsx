@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import EventsForm from '../../components/MyEvents/EventsForm/EventsForm';
-import EventList from '../../components/MyEvents/EventsList/EventList';
 import MyModal from '../../components/UI/MyModal/MyModal';
 import MyButton from '../../components/UI/Button/MyButton';
 import styles from './Events.module.sass';
 import CONSTANTS from '../../constants';
 import Badge from '../../components/MyEvents/Badge/Badge';
+import EventList from '../../components/MyEvents/EventsList/EventList';
 
 function Events () {
   const [events, setEvents] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(null);
-
+  const [editingEvent, setEditingEvent] = useState(null);
   const [modal, setModal] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const [activeEventsCount, setActiveEventsCount] = useState(0);
   const eventsCount = events.length;
+
   useEffect(() => {
     const savedEvents = JSON.parse(localStorage.getItem('events')) || [];
     setEvents(savedEvents);
@@ -27,31 +25,32 @@ function Events () {
     localStorage.setItem('events', JSON.stringify(events));
   }, [events]);
 
-  //function addEvent (values) {
-  //if (editingIndex !== null) {
-  //const updatedEvents = [...events];
-  //updatedEvents[editingIndex] = values;
-  //setEvents(updatedEvents);
-  // setEditingIndex(null);
-  //} else {
-  //  setEvents([...events, values]);
-  //}
-  //}
-  const addEvent = newEvent => {
-    setEvents([...events, newEvent]);
+  const createEvents = newEvent => {
+    //console.log('newEvent:', newEvent);
+    setEvents(prevEvents => {
+      const updatedEvents = [...prevEvents, newEvent];
+      //console.log('updatedEvents:', updatedEvents);
+      return updatedEvents;
+    });
     setModal(false);
   };
-  function deleteEvent (index) {
+  function removeEvent (index) {
+    //console.log('removeEvent function called with index:', index);
     setEvents(events.filter((_, i) => i !== index));
   }
-
   function updateEvent (updatedEvent) {
-    if (editingIndex !== null) {
-      const updatedEvents = [...events];
-      updatedEvents[editingIndex] = updatedEvent;
-      setEvents(updatedEvents);
-      setEditingIndex(null);
-    }
+    setEvents(events =>
+      events.map(event => (event.id === updatedEvent.id ? updatedEvent : event))
+    );
+  }
+  function editEvent (index, updatedEvent) {
+    setEvents(events =>
+      events.map((event, i) => (i === index ? updatedEvent : event))
+    );
+  }
+  function openEditModal (index) {
+    setEditingEvent(events[index]);
+    setModal(true);
   }
 
   return (
@@ -60,10 +59,18 @@ function Events () {
       <div>
         <h1 className={styles.title}>Your Events</h1>
       </div>
-
       <MyModal visible={modal} setVisible={setModal}>
-        <EventsForm onSubmit={addEvent} />
+        {editingEvent ? (
+          <EventsForm
+            event={editingEvent}
+            update={updateEvent}
+            isEditing={true}
+          />
+        ) : (
+          <EventsForm create={createEvents} isEditing={false} />
+        )}
       </MyModal>
+
       <div className={styles.eventsContainer}>
         <div className={styles.eventListNav}>
           <MyButton onClick={() => setModal(true)}>Create event</MyButton>
@@ -86,26 +93,13 @@ function Events () {
             alt=''
           />
         </div>
-        <hr />
-
         <div className={styles.eventListEvent}>
-          {events.length === 0 ? (
-            <div className={styles.notList}>
-              <span>You have no any events yet</span>
-            </div>
-          ) : (
-            //events.map(event => <EventList key={uuidv4()} {...event} />)
-
-            events.map((event, index) => (
-              <EventList
-                key={index}
-                {...event}
-                onDelete={() => deleteEvent(index)}
-                onEdit={setModal}
-                setActiveEventsCount={setActiveEventsCount}
-              />
-            ))
-          )}
+          <EventList
+            events={events}
+            remove={removeEvent}
+            edit={openEditModal}
+            setActiveEventsCount={setActiveEventsCount}
+          />
         </div>
       </div>
       <Footer />
