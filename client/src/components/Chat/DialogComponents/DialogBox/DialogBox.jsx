@@ -35,20 +35,20 @@ const DialogBox = props => {
         })
       }
     >
-      <img
+      {/* <img
         src={
           interlocutor.avatar === 'anon.png'
             ? CONSTANTS.ANONYM_IMAGE_PATH
             : `${CONSTANTS.publicURL}${interlocutor.avatar}`
         }
         alt='user'
-      />
+      /> */}
       <div className={styles.infoContainer}>
         <div className={styles.interlocutorInfo}>
-          <span className={styles.interlocutorName}>
+          {/* <span className={styles.interlocutorName}>
             {interlocutor.firstName}
-          </span>
-          <span className={styles.interlocutorMessage}>{text}</span>
+          </span> */}
+          {/* <span className={styles.interlocutorMessage}>{text}</span> */}
         </div>
         <div className={styles.buttonsContainer}>
           <span className={styles.time}>{getTimeStr(createAt)}</span>

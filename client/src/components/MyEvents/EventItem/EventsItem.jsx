@@ -2,15 +2,17 @@ import React from 'react';
 import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa';
 import styles from './EventsItem.module.sass';
 import Timer from '../TimeColor/Timer';
-import ProgressBar from '../ProgressBar/ProgressBar';
+
+import CountdownTimer from '../ProgressBar/CountdownTime';
 
 const EventsItem = props => {
   //console.log('EventsItem targetDateTime:', props.targetDateTime); // log the targetDateTime prop
   const timeLeft = calculateTimeLeft(props.targetDateTime);
+  const targetDateTime = props.targetDateTime;
 
   return (
     <div className={styles.eventListEvent}>
-      <ProgressBar eventName={props.event.eventName} timeLeft={timeLeft} />
+      <CountdownTimer targetDateTime={targetDateTime} />
 
       <div className={styles.eventBtn}>
         <div className={styles.timerView}>

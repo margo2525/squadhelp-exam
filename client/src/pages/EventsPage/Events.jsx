@@ -26,7 +26,7 @@ function Events () {
   }, [events]);
 
   const createEvents = newEvent => {
-    //console.log('newEvent:', newEvent);
+    console.log('event:', events);
     setEvents(prevEvents => {
       const updatedEvents = [...prevEvents, newEvent];
       //console.log('updatedEvents:', updatedEvents);
@@ -34,6 +34,7 @@ function Events () {
     });
     setModal(false);
   };
+
   function removeEvent (index) {
     //console.log('removeEvent function called with index:', index);
     setEvents(events.filter((_, i) => i !== index));
@@ -52,7 +53,17 @@ function Events () {
     setEditingEvent(events[index]);
     setModal(true);
   }
+  //const [day, month, year] = a.date.split('.');
 
+  //events.sort((a, b) => {
+  // Перетворення дати й часу події на об'єкт Date
+  //const [dayA, monthA, yearA] = a.date.split('.');
+  //const dateA = new Date(`${yearA}-${monthA}-${dayA}T${a.time}`);
+  //const [dayB, monthB, yearB] = b.date.split('.');
+  //const dateB = new Date(`${yearB}-${monthB}-${dayB}T${b.time}`);
+  // Порівняння об'єктів Date і повернення результату
+  //return dateA - dateB;
+  //});
   return (
     <>
       <Header />
@@ -85,7 +96,7 @@ function Events () {
         </div>
         <div className={styles.eventsHeader}>
           <h3>The event has started!</h3>
-          <span style={{ color: 'red' }}>{activeEventsCount}</span>;
+          <span style={{ color: 'red' }}>{activeEventsCount}</span>
           <span>Remaining time</span>
           <img
             className={styles.clocImage}

@@ -44,7 +44,7 @@ function calculateTimeLeft (targetDateTime) {
   //console.log('calculateTimeLeft targetDateTime:', targetDateTime); // log the targetDateTime argument
   const difference = +new Date(targetDateTime) - +new Date();
 
-  console.log('difference:', difference);
+  // console.log('difference:', difference);
   let timeLeft = {};
 
   if (difference > 0) {
